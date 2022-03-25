@@ -1,0 +1,66 @@
+﻿@model DataRepository.Models.SchoolData
+
+@{
+    ViewData["Title"] = "SchoolRegistration";
+}
+
+<form method="post">
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <h4>School Registration</h4>
+                <br />
+              @*  <div asp-validation-summary="All"></div>*@
+                <div class="row">
+                    <div class="col-md-4">
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label asp-for="SchoolName"></label>
+                            <input asp-for="SchoolName" class="form-control" />
+                            <span asp-validation-for="SchoolName" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Password"></label>
+                            <input asp-for="Password" class="form-control" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="ConfirmPassword"></label>
+                            <input asp-for="ConfirmPassword" class="form-control" />
+                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="EmailAddress"></label>
+                            <input asp-for="EmailAddress" class="form-control" />
+                            <span asp-validation-for="EmailAddress" class="text-danger"></span>
+                        </div>
+
+                        @if (TempData["Error"] != null)
+                        {
+                            <div class="mb-3 text-danger">
+                                @TempData["Error"]
+                            </div>
+
+                        }
+
+                        <button type="submit" class="btn btn-primary">Register</button>
+
+                        <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Go Back</a>
+                    </div>
+                    <div class="col-md-4">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    @{
+    <partial name="_ValidationScriptsPartial" />
+    }
+}

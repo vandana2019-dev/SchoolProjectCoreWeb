@@ -1,0 +1,67 @@
+﻿@model DataRepository.Models.BookingData
+
+@{
+    ViewData["Title"] = "Make Booking";
+}
+
+<form method="post">
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <h4>Make Booking</h4>
+                <br />
+              @*  <div asp-validation-summary="All"></div>*@
+                <div class="row">
+                    <div class="col-md-4">
+                    </div>
+                    <div class="col-md-4">
+                        <div class="mb-3">
+                            <label asp-for="AccessCode"></label>
+                            <input asp-for="AccessCode" class="form-control" />
+                            <span asp-validation-for="AccessCode" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="StudentFirstName"></label>
+                            <input asp-for="StudentFirstName" class="form-control" />
+                            <span asp-validation-for="StudentFirstName" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="StudentLastName"></label>
+                            <input asp-for="StudentLastName" class="form-control" />
+                            <span asp-validation-for="StudentLastName" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="EmailAddress"></label>
+                            <input asp-for="EmailAddress" class="form-control" />
+                            <span asp-validation-for="EmailAddress" class="text-danger"></span>
+                        </div>
+
+                        
+                        @if (TempData["Error"] != null)
+                        {
+                            <div class="mb-3 text-danger">
+                                @TempData["Error"]
+                            </div>
+
+                        }
+
+                        <button type="submit" class="btn btn-primary">Make Booking</button>
+
+                        <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Go Back</a>
+                    </div>
+                    <div class="col-md-4">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    @{
+    <partial name="_ValidationScriptsPartial" />
+    }
+}
