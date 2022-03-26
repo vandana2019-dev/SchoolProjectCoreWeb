@@ -9,9 +9,11 @@ namespace DataRepository
 {
     public interface  IDataRepo
     {
-        Task<IEnumerable<SchoolData>> GetSchoolDataByEmail(string email);
+        Task<IEnumerable<ISchoolData>> GetSchoolDataByEmail(string email);
         void AddSchoolData(SchoolData schoolData);
         Task<bool> GetSchoolDataByAccessCode(string accessCode);
         Task AddBookingDataAsync(BookingData bookingData);
+
+        Task<ISchoolData> SchoolLogin(string email, string password);
     }
 }

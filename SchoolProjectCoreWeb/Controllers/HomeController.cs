@@ -78,5 +78,23 @@ namespace SchoolProjectCoreWeb.Controllers
             ModelState.Clear();
             return View(new BookingData());
         }
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Login(string emailAddress, string password)
+        {
+            var schoolData = await _dataRepo.SchoolLogin(emailAddress, password);
+
+            if(schoolData == null)
+            {
+                TempData["Error"] = "Invalid Email Address and Password";
+                return View();
+            }
+
+            return View(schoolData);
+        }
     }
 }

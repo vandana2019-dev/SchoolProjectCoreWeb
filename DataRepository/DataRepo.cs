@@ -14,13 +14,13 @@ namespace DataRepository
             _repository = repository;
         }
 
-        public async Task<IEnumerable<SchoolData>> GetSchoolDataByEmail(string email)
+        public async Task<IEnumerable<ISchoolData>> GetSchoolDataByEmail(string email)
         {
             var query = "select * from schooldata where EmailAddress = @email";
 
             using (var conn = _repository.CreateCommonConnection())
             {
-                return await conn.QueryAsync<SchoolData>(query, new { email });
+                return await conn.QueryAsync<SchoolDataNoCredentials>(query, new { email });
 
             }
         }
@@ -32,7 +32,7 @@ namespace DataRepository
                 schoolData.AccessCode = accessCode.Next(100,200).ToString();
                 schoolData.CreatedDate = DateTime.Now;
                 schoolData.UpdatedDate = DateTime.Now;
-
+                schoolData.Password = BCrypt.Net.BCrypt.HashPassword(schoolData.Password);           
                 conn.Insert(schoolData);
             }
 
@@ -64,6 +64,23 @@ namespace DataRepository
            
         }
 
-       
+        public async Task<ISchoolData> SchoolLogin(string email, string password)
+        {
+            var query = "select * from schooldata where emailaddress = @email";
+            using (var conn = _repository.CreateCommonConnection())
+            {
+                var schoolData = await conn.QueryFirstOrDefaultAsync<SchoolData>(query, new { email } );
+                var valid = schoolData != null ? BCrypt.Net.BCrypt.Verify(password, schoolData.Password) : false;
+               
+                if(valid)
+                {
+                    return new SchoolData() { SchoolName = schoolData.SchoolName,
+                                              EmailAddress = schoolData.EmailAddress, 
+                                              AccessCode = schoolData.AccessCode };
+                }
+                return null;
+               
+            }
+        }
     }
 }

@@ -10,8 +10,7 @@ using KeyAttribute = Dapper.Contrib.Extensions.KeyAttribute;
 
 namespace DataRepository.Models
 {
-    [Table("SchoolData")]
-    public class SchoolData : ISchoolData
+    public class SchoolDataNoCredentials : ISchoolData
     {
         [Key]
         public int Id { get; set; }
@@ -32,14 +31,5 @@ namespace DataRepository.Models
 
         // additional properties
 
-        [Required]
-        [Compare("ConfirmPassword")]
-        public string Password { get; set; }
-
-        [DisplayName("Confirm Password")]
-        [Write(false)]
-        public string ConfirmPassword { get; set; }
-
- 
     }
 }
