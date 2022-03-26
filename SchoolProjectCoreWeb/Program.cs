@@ -1,5 +1,6 @@
 using DataRepository;
 using DataRepository.DataConnection;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
@@ -12,11 +13,17 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<DapperContext>();
 builder.Services.AddSingleton<IDataRepo, DataRepo>();
 
+//get connection string
 var connectionString = builder.Configuration.GetConnectionString("CommonDatabase");
 
+// get the current assembly name
 var currentAssembly = Assembly.GetExecutingAssembly().GetName().Name;
 
+// add the IdentityDbContext for the current connectionString in the currentAssembly
 builder.Services.AddDbContext<IdentityDbContext>(options => options.UseSqlServer(connectionString, obj => obj.MigrationsAssembly(currentAssembly)));
+
+// storing user information
+builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<IdentityDbContext>();
 
 var app = builder.Build();
 
